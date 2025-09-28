@@ -56,6 +56,7 @@ namespace PaymentApp.Domain.Framework
     public enum ResultCode: int
     {
         Ok = 0,
-        Error = -1
+        Error = 1,
+        NotFound = 2
     }
 }

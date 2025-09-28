@@ -1,7 +1,7 @@
 ﻿using PaymentApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace PaymentApp.Infrastructure.Drivers
+namespace PaymentApp.Infrastructure.Drivers.DbContexts
 {
     public class PgDbContext: DbContext
     {
@@ -38,10 +38,13 @@ namespace PaymentApp.Infrastructure.Drivers
                 entity.ToTable("users");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.PasswordHash).IsRequired();
-                entity.Property(e=>e.Login).HasMaxLength(20).IsRequired();
+                entity.Property(e => e.Balance).HasPrecision(10, 2);
                 entity.Property(e => e.IsBlocked).HasDefaultValue(false);
                 entity.Property(e=>e.MaxAuthAttempts).HasDefaultValue(3);
+                entity.Property(e => e.BalanceCcy).HasMaxLength(3).HasDefaultValue("USD");
+                entity.Property(e => e.Login).HasMaxLength(20).IsRequired();
                 entity.Property(e=>e.FailedLoginAttempts).HasDefaultValue(0);
+
                 entity.HasMany(e => e.Tokens)
                              .WithOne(e => e.User)
                              .HasForeignKey(e => e.UserId);

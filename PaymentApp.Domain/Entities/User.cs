@@ -36,6 +36,16 @@
         public bool IsBlocked { get; set; }
 
         /// <summary>
+        /// Баланс пользователя
+        /// </summary>
+        public decimal Balance { get; set; }
+
+        /// <summary>
+        /// Валюта баланса пользователя
+        /// </summary>
+        public string BalanceCcy { get; set; } = null!;
+
+        /// <summary>
         /// Навигационное поле по коллекции токенов
         /// </summary>
         public ICollection<UserToken> Tokens { get; set; } = new List<UserToken>();
