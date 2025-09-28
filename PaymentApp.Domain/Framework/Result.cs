@@ -31,6 +31,10 @@ namespace PaymentApp.Domain.Framework
         };
     }
 
+    /// <summary>
+    /// Обобщенный класс, для возврата результат
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Result<T>: Result
     {
         /// <summary>
@@ -56,7 +60,9 @@ namespace PaymentApp.Domain.Framework
     public enum ResultCode: int
     {
         Ok = 0,
-        Error = 1,
-        NotFound = 2
+        InternalServerError = 1,
+        NotFound = 2,
+        BadRequest = 3,
+        Unauthorized = 4,
     }
 }

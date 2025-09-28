@@ -1,4 +1,5 @@
-﻿using PaymentApp.Domain.Framework;
+﻿using PaymentApp.Domain.Entities;
+using PaymentApp.Domain.Framework;
 
 namespace PaymentApp.Domain.Abstractions.Repositories
 {
@@ -7,7 +8,11 @@ namespace PaymentApp.Domain.Abstractions.Repositories
     /// </summary>
     public interface IPaymentRepository
     {
-
-        Task<Result> CreatePayment();
+        /// <summary>
+        /// Метод для создания платежа
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns></returns>
+        Task<Result> CreatePayment(Payment payment);
     }
 }

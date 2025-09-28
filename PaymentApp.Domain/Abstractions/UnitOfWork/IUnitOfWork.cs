@@ -9,6 +9,7 @@ namespace PaymentApp.Domain.Abstractions.UnitOfWork
     {
         IUserRepository UserRepository { get; }
         IPaymentRepository PaymentRepository { get; }
+
         IUserTokenRepository UserTokenRepository { get; }
 
         Task BeginTransactionAsync();

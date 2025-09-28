@@ -21,6 +21,16 @@
         public DateTime Expiry { get; set; }
 
         /// <summary>
+        /// Статус токена
+        /// </summary>
+        public bool IsActive { get; set; } = true;
+
+        /// <summary>
+        /// Дата отозвания токена
+        /// </summary>
+        public DateTime RevokedAt { get; set; }
+
+        /// <summary>
         /// Id пользователя 
         /// </summary>
         public int UserId { get; set; }

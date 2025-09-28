@@ -9,18 +9,17 @@ namespace PaymentApp.Domain.Abstractions.Repositories
     public interface IUserRepository
     {
         /// <summary>
+        /// Метод для получения пользователя по логину
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        Task<Result<User>> GetByLoginAsync(string login);
+
+        /// <summary>
         /// Метод для получения пользователя по Id
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
         Task<Result<User>> GetByIdAsync(int Id);
-
-        /// <summary>
-        /// Метод для обновления баланса
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="balance"></param>
-        /// <returns></returns>
-        Task<Result> UpdateBalace(int Id, decimal balance);
     }
 }

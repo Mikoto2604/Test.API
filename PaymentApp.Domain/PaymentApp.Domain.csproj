@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Repositories\" />
-    <Folder Include="Helper\" />
   </ItemGroup>
 
 </Project>

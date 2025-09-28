@@ -11,6 +11,7 @@ namespace PaymentApp.Infrastructure.UnitOfWork
         private IDbContextTransaction? _transaction;
         public IUserRepository UserRepository { get; }
         public IPaymentRepository PaymentRepository { get; }
+
         public IUserTokenRepository UserTokenRepository { get; }
 
         public UnitOfWorkImpl(PgDbContext pgDbContext,

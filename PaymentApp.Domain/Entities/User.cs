@@ -23,7 +23,7 @@
         /// <summary>
         /// Максимальное количество попыток аутентификации
         /// </summary>
-        public short MaxAuthAttempts { get; set; }
+        public short MaxLoginAttempts { get; set; }
 
         /// <summary>
         /// Количество текущих неудачных попыток

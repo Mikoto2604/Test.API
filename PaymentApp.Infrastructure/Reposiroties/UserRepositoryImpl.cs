@@ -11,24 +11,20 @@ namespace PaymentApp.Infrastructure.Reposiroties
     {
         private readonly PgDbContext _pgDbContext;
         public UserRepositoryImpl(PgDbContext pgDbContext)=> _pgDbContext = pgDbContext;
-        
 
-        public async Task<Result<User>> GetByIdAsync(int Id)
+        public async Task<Result<User>> GetByLoginAsync(string login)
         {
-            var user = await _pgDbContext.User.Where(x=>x.Id == Id).FirstOrDefaultAsync();
+            var user = await _pgDbContext.Users.Where(x => x.Login == login).FirstOrDefaultAsync();
             if (user != null)
                 return Result<User>.Ok(user);
             return Result<User>.Error(ResultCode.NotFound);
         }
 
-        public async Task<Result> UpdateBalace(int Id, decimal balance)
+        public async Task<Result<User>> GetByIdAsync(int Id)
         {
-            var user = await GetByIdAsync(Id);
-            if (user.Data != null)
-            {
-                user.Data.Balance = balance;
-                return Result.Ok();
-            }
+            var user = await _pgDbContext.Users.Where(x=>x.Id == Id).FirstOrDefaultAsync();
+            if (user != null)
+                return Result<User>.Ok(user);
             return Result<User>.Error(ResultCode.NotFound);
         }
     }
