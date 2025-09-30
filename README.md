@@ -2,21 +2,19 @@
 
 Project on .NET 8. Uses PostgreSQL as a database. 
 
-\## Users for testing. They will remain in the database after migration and database creation.
+* Users for testing. They will remain in the database after migration and database creation.
 
-\- \User 1\- \P@ssw0rd!2025
+        1. User 1 ->> P@ssw0rd!2025
 
-\- \User 2\- \SunnyDay#42
+        2. User 2 ->> SunnyDay#42
 
-\- \User 3\- \Tr!cky_Pa$$
+        3. User 3 ->> Tr!cky_Pa$$
 
-\- \User 4\- \User-login_123
+        4. User 4 ->> User-login_123
 
-\- \User 5\- \Qwerty!@#987
+        5. User 5 ->> Qwerty!@#987
 
-
-
-\## Docker-compose command
+* Docker-compose command
 
 
 ```powerShall

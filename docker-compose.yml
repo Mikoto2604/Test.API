@@ -1,8 +1,6 @@
-﻿version: "3.9"
-
-services:
+﻿services:
   app:
-    image:PaymentApp
+    image: paymentapp
     build: .
     container_name: PaymentApp
     ports:
