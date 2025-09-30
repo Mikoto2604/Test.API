@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using PaymentApp.Application.Dto.Auth;
-using PaymentApp.Domain.Abstractions.Repositories;
-using PaymentApp.Domain.Abstractions.UnitOfWork;
+﻿using System.Net;
+using System.Security.Claims;
 using PaymentApp.Domain.Entities;
 using PaymentApp.Domain.Framework;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using PaymentApp.Application.Dto.Auth;
 using PaymentApp.Domain.Helper.Exceptions;
-using System.Net;
-using System.Security.Claims;
+using PaymentApp.Domain.Abstractions.UnitOfWork;
 
 namespace PaymentApp.Application.Services.Auth
 {
@@ -17,16 +16,14 @@ namespace PaymentApp.Application.Services.Auth
         private readonly IJwtService _jwtService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
-        private readonly IUserTokenRepository _userTokenRepository;
 
-        public AuthService(IUserTokenRepository userTokenRepository, IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher, 
+        public AuthService(IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher, 
                            IJwtService jwtService, ILogger<AuthService> logger)
         {
             _logger = logger;
             _jwtService = jwtService;
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
-            _userTokenRepository = userTokenRepository;
         }
         public async Task<Result<TokenDto>> LoginAsync(LoginRequestDto loginRequestDto)
         {
@@ -34,7 +31,7 @@ namespace PaymentApp.Application.Services.Auth
             {
                 await _unitOfWork.BeginTransactionAsync();
                 var user = await _unitOfWork.UserRepository.GetByLoginAsync(loginRequestDto.Login);
-                if (user.Code == ResultCode.Ok && user.Data != null)
+                if (user.Code == ResultCode.Ok)
                 {
                     if (!user.Data.IsBlocked)
                     {
@@ -42,10 +39,10 @@ namespace PaymentApp.Application.Services.Auth
                         if (verificationResult == PasswordVerificationResult.Success)
                         {
                             var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.NameIdentifier, loginRequestDto.Login),
-                            new Claim(ClaimTypes.Name, loginRequestDto.Login)
-                        };
+                            {
+                                new Claim(ClaimTypes.NameIdentifier, loginRequestDto.Login),
+                                new Claim(ClaimTypes.Name, loginRequestDto.Login)
+                            };
                             var resultToken = _jwtService.GenerateToken(claims);
                             var userToken = new UserToken
                             {
@@ -56,7 +53,7 @@ namespace PaymentApp.Application.Services.Auth
                                 User = user.Data
                             };
 
-                            await _userTokenRepository.AddAsync(userToken);
+                            await _unitOfWork.UserTokenRepository.AddAsync(userToken);
                             await _unitOfWork.CommitAsync();
                             return Result<TokenDto>.Ok(resultToken.Data);
                         }
@@ -70,9 +67,7 @@ namespace PaymentApp.Application.Services.Auth
                     throw new ServiceException(ResultCode.BadRequest, HttpStatusCode.BadRequest, "Account is locked!");
                 }
                 else
-                {
                     throw new ServiceException(ResultCode.BadRequest, HttpStatusCode.BadRequest, "Invalid credentials");
-                }
             }
             catch(ServiceException serviceException)
             {
@@ -91,10 +86,10 @@ namespace PaymentApp.Application.Services.Auth
         public async Task RegisterFailedLoginAsync(int userId)
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
-            if (user.Code == ResultCode.Ok && user.Data != null)
+            if (user.Code == ResultCode.Ok)
             {
                 user.Data.FailedLoginAttempts += 1;
-                if (user.Data.MaxLoginAttempts == user.Data.FailedLoginAttempts)
+                if (user.Data.FailedLoginAttempts > user.Data.MaxLoginAttempts)
                     user.Data.IsBlocked = true;
             }
         }

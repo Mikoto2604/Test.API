@@ -1,33 +1,29 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PaymentApp.Application.Dto.Auth;
-using PaymentApp.Application.Services.Auth;
+﻿using Microsoft.AspNetCore.Mvc;
 using PaymentApp.Domain.Framework;
+using PaymentApp.Application.Dto.Auth;
+using Microsoft.AspNetCore.Authorization;
+using PaymentApp.Application.Services.Auth;
 
 namespace PaymentApp.Api.Controllers
 {
     
     [ApiController]
-    [Route("auth")]
-    public class AuthController: ControllerBase
+    [Route("api/auth")]
+    public class AuthController: BaseController
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
-        {
-            _authService = authService;
-        }
+        public AuthController(IAuthService authService) => _authService = authService;
 
         [HttpPost("login")]
         [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login(LoginRequestDto request)=> Ok(await _authService.LoginAsync(request));
 
         [Authorize]
         [HttpPost("logout")]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Logout()
-        {
-            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            return Ok(await _authService.LogoutAsync(token));
-        }
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Logout() => Ok(await _authService.LogoutAsync(Token));
     }
 }

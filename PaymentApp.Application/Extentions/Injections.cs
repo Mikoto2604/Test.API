@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using PaymentApp.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using PaymentApp.Application.Services.Auth;
-using PaymentApp.Domain.Abstractions.Repositories;
-using PaymentApp.Domain.Abstractions.UnitOfWork;
-using PaymentApp.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
+using PaymentApp.Application.Services.Transaction;
 
 namespace PaymentApp.Application.Extentions
 {
     public static class Injections
     {
-        public static IServiceCollection AddAppication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             return services;
         }

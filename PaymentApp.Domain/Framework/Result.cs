@@ -32,7 +32,7 @@ namespace PaymentApp.Domain.Framework
     }
 
     /// <summary>
-    /// Обобщенный класс, для возврата результат
+    /// Обобщенный класс, для возврата результата
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Result<T>: Result

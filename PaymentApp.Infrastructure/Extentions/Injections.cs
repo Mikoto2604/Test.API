@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using PaymentApp.Domain.Abstractions.Repositories;
-using PaymentApp.Domain.Abstractions.UnitOfWork;
-using PaymentApp.Infrastructure.Drivers.DbContexts;
-using PaymentApp.Infrastructure.Reposiroties;
 using PaymentApp.Infrastructure.UnitOfWork;
+using PaymentApp.Infrastructure.Reposiroties;
+using Microsoft.Extensions.DependencyInjection;
+using PaymentApp.Domain.Abstractions.UnitOfWork;
+using PaymentApp.Domain.Abstractions.Repositories;
+using PaymentApp.Infrastructure.Drivers.DbContexts;
 
 namespace PaymentApp.Infrastructure.Extentions
 {

@@ -21,7 +21,5 @@ namespace PaymentApp.Domain.Abstractions.Repositories
         /// <param name="token"></param>
         /// <returns></returns>
         Task<Result<UserToken>> GetByTokenAsync(string token);
-
-
     }
 }

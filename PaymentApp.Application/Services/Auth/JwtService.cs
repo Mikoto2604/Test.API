@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net;
+using System.Text;
+using System.Security.Claims;
+using PaymentApp.Domain.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PaymentApp.Application.Dto.Auth;
-using PaymentApp.Domain.Abstractions.UnitOfWork;
-using PaymentApp.Domain.Framework;
-using PaymentApp.Domain.Helper.Exceptions;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
+using Microsoft.Extensions.Configuration;
+using PaymentApp.Domain.Helper.Exceptions;
+using PaymentApp.Domain.Abstractions.UnitOfWork;
+
 
 namespace PaymentApp.Application.Services.Auth
 {
@@ -32,7 +33,7 @@ namespace PaymentApp.Application.Services.Auth
             {
                 await _unitOfWork.BeginTransactionAsync();
                 var result = await _unitOfWork.UserTokenRepository.GetByTokenAsync(token);
-                if (result.Code == ResultCode.Ok && result.Data != null)
+                if (result.Code == ResultCode.Ok)
                 {
                     if (!result.Data.IsActive)
                         throw new ServiceException(ResultCode.Unauthorized, HttpStatusCode.Unauthorized, HttpStatusCode.Unauthorized.ToString());
@@ -41,11 +42,17 @@ namespace PaymentApp.Application.Services.Auth
                     await _unitOfWork.CommitAsync();
                     return Result.Ok();
                 }
-                throw new ServiceException(ResultCode.InternalServerError, HttpStatusCode.InternalServerError, HttpStatusCode.InternalServerError.ToString());
+                throw new ServiceException(ResultCode.NotFound, HttpStatusCode.NotFound, "Token not found!");
             }
-            catch (Exception ex)
+            catch (ServiceException serviceException)
             {
-                _logger.LogError($"{ex.Message}");
+                _logger.LogError($"{serviceException.Message}");
+                await _unitOfWork.RollbackAsync();
+                throw;
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"{exception.Message}");
                 await _unitOfWork.RollbackAsync();
                 throw new ServiceException(ResultCode.InternalServerError, HttpStatusCode.InternalServerError, HttpStatusCode.InternalServerError.ToString());
             }
@@ -82,7 +89,7 @@ namespace PaymentApp.Application.Services.Auth
         public async Task<Result<bool>> TokenIsActive(string token)
         {
             var result = await _unitOfWork.UserTokenRepository.GetByTokenAsync(token);
-            if (result.Code == ResultCode.Ok && result.Data != null)
+            if (result.Code == ResultCode.Ok)
             {
                 if (!result.Data.IsActive)
                     return Result<bool>.Ok(false);

@@ -15,7 +15,7 @@ namespace PaymentApp.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -30,55 +30,54 @@ namespace PaymentApp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "payments",
+                name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_payments", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_payments_users_UserId",
+                        name: "FK_Payments_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_token",
+                name: "User_tokens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Token = table.Column<string>(type: "text", nullable: false),
-                    Expiry = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expiry = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    RevokedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RevokedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_token", x => x.Id);
+                    table.PrimaryKey("PK_User_tokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_user_token_users_UserId",
+                        name: "FK_User_tokens_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "users",
+                table: "Users",
                 columns: new[] { "Id", "Balance", "BalanceCcy", "Login", "MaxLoginAttempts", "PasswordHash" },
                 values: new object[,]
                 {
@@ -90,13 +89,13 @@ namespace PaymentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_payments_UserId",
-                table: "payments",
+                name: "IX_Payments_UserId",
+                table: "Payments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_token_UserId",
-                table: "user_token",
+                name: "IX_User_tokens_UserId",
+                table: "User_tokens",
                 column: "UserId");
         }
 
@@ -104,13 +103,13 @@ namespace PaymentApp.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "payments");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "user_token");
+                name: "User_tokens");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "Users");
         }
     }
 }

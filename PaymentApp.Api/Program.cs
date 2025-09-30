@@ -1,15 +1,14 @@
 using PaymentApp.Api.Extentions;
 using Microsoft.EntityFrameworkCore;
+using PaymentApp.Application.Extentions;
 using PaymentApp.Infrastructure.Extentions;
 using PaymentApp.Infrastructure.Drivers.DbContexts;
-using PaymentApp.Application.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Host.UseConfigure();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddApiServices(builder.Configuration);
-builder.Services.AddAppication(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
@@ -30,7 +29,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SpecUrl = "swagger/v1/swagger.json";
         c.RoutePrefix = "";
-        c.DocumentTitle = "API Документация";
+        c.DocumentTitle = "API Document";
     });
 }
 

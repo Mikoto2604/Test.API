@@ -1,6 +1,6 @@
-﻿using PaymentApp.Domain.Framework;
+﻿using System.Net;
+using PaymentApp.Domain.Framework;
 using PaymentApp.Domain.Helper.Exceptions;
-using System.Net;
 
 namespace PaymentApp.Api.Extentions
 {

@@ -24,11 +24,9 @@ namespace PaymentApp.Infrastructure.Migrations
 
             modelBuilder.Entity("PaymentApp.Domain.Entities.Payment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(10, 2)
@@ -44,7 +42,7 @@ namespace PaymentApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("PaymentApp.Domain.Entities.User", b =>
@@ -92,7 +90,7 @@ namespace PaymentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -180,7 +178,7 @@ namespace PaymentApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_tokens", (string)null);
+                    b.ToTable("User_tokens", (string)null);
                 });
 
             modelBuilder.Entity("PaymentApp.Domain.Entities.Payment", b =>

@@ -23,7 +23,7 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
             // Настройки сущности Payment
             modelBuilder.Entity<Payment>(entity =>
             {
-                entity.ToTable("payments");
+                entity.ToTable("Payments");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.CreatedAt).HasColumnType("timestamp without time zone");
                 entity.Property(e => e.Amount).HasPrecision(10, 2);
@@ -32,7 +32,7 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
             // Настройки сущности UserToken
             modelBuilder.Entity<UserToken>(entity =>
             {
-                entity.ToTable("user_tokens");
+                entity.ToTable("User_tokens");
                 entity.HasKey(e => e.Id);
                 entity.Property(e=>e.Token).IsRequired();
                 entity.Property(e => e.Expiry).HasColumnType("timestamp without time zone");
@@ -42,7 +42,7 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
             // Настройки сущности User
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("users");
+                entity.ToTable("Users");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.PasswordHash).IsRequired();
                 entity.Property(e => e.Balance).HasPrecision(10, 2);
@@ -62,7 +62,6 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
 
                 entity.HasData(new User
                 {
-                    // P@ssw0rd!2025
                     Id = 1,
                     Login = "User 1",
                     PasswordHash = "AQAAAAIAAYagAAAAEPbRfMBiYwm+9MONMvIoRP7A0hYRdfe+yTcttw9VBNRIoOvgy6ddy6duQEiZv2RF4Q==",
@@ -74,7 +73,6 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
                 }, 
                 new User
                 {
-                    // SunnyDay#42
                     Id = 2,
                     Login = "User 2",
                     PasswordHash = "AQAAAAIAAYagAAAAECoIOO2jYvViIx1T/msKb7dD6jvMp6RoPr631yV8iQHORYjcNzlJSr3rhBuKB6Y0+A==",
@@ -86,7 +84,6 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
                 },
                 new User
                 {
-                    // Tr!cky_Pa$$
                     Id = 3,
                     Login = "User 3",
                     PasswordHash = "AQAAAAIAAYagAAAAEBQqVyF/C2q5tJdQfFjQakwEGU0dmTXWLLE20ULWdAcr522uBdO/8epQ/HuHff/tJQ==",
@@ -98,7 +95,6 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
                 },
                 new User
                 {
-                    // User-login_123
                     Id = 4,
                     Login = "User 4",
                     PasswordHash = "AQAAAAIAAYagAAAAECq3e2ltZC0mPfLglCJjeUmq6a4CRzOrstJn1gf1NaOs9jHJSJZslgVaXkorLQJvNg==",
@@ -110,7 +106,6 @@ namespace PaymentApp.Infrastructure.Drivers.DbContexts
                 },
                 new User
                 {
-                    // Qwerty!@#987
                     Id = 5,
                     Login = "User 5",
                     PasswordHash = "AQAAAAIAAYagAAAAEEDAW4Y3xVZY1hFPspXX/PF+gANWffip1fmv+07fO8Xf2Tll/XfAoYveGXd2wiaUWw==",

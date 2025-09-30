@@ -3,9 +3,9 @@
 namespace PaymentApp.Domain.Abstractions.UnitOfWork
 {
     /// <summary>
-    /// Интерфейс для работы с транзакциями. 
+    /// Интерфейс для работы с транзакциями
     /// </summary>
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork: IDisposable, IAsyncDisposable
     {
         IUserRepository UserRepository { get; }
         IPaymentRepository PaymentRepository { get; }

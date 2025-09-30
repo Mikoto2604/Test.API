@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+﻿using System.Text;
 using Microsoft.OpenApi.Models;
-using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 namespace PaymentApp.Api.Extentions
 {
@@ -39,11 +40,11 @@ namespace PaymentApp.Api.Extentions
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description = "JWT Authorization header using the Bearer scheme",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
+                    Scheme = "Bearer",
                     BearerFormat = "JWT"
                 });
 
@@ -70,13 +71,8 @@ namespace PaymentApp.Api.Extentions
         {
             hostBuilder.ConfigureAppConfiguration((cfx, config) =>
             {
-                #if DEBUG
                     config.AddJsonFile($"appsettings.json", false, reloadOnChange: true);
-                    config.AddJsonFile($"appsettings{cfx.HostingEnvironment.EnvironmentName}.json", false, reloadOnChange: true);
-                #else
-                    config.AddJsonFile($"data/config/appsettings.json", false, reloadOnChange: true);
-                    config.AddJsonFile($"data/config/appsettings{cfx.HostingEnvironment.EnvironmentName}.json", false, reloadOnChange: true);
-                #endif
+                    config.AddJsonFile($"appsettings.{cfx.HostingEnvironment.EnvironmentName}.json", false, reloadOnChange: true);
             });
 
             return hostBuilder;

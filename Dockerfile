@@ -1,14 +1,15 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
 
-
+ENV ASPNETCORE_URLS=http://+:80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["PaymentApp.Api/PaymentApp.Api.csproj", "PaymentApp.Api/"]
+COPY ["PaymentApp.Application/PaymentApp.Application.csproj", "PaymentApp.Application/"]
+COPY ["PaymentApp.Domain/PaymentApp.Domain.csproj", "PaymentApp.Domain/"]
+COPY ["PaymentApp.Infrastructure/PaymentApp.Infrastructure.csproj", "PaymentApp.Infrastructure/"]
 RUN dotnet restore "./PaymentApp.Api/PaymentApp.Api.csproj"
 COPY . .
 WORKDIR "/src/PaymentApp.Api"
